@@ -88,7 +88,7 @@ const App = () => {
                 {/* DASHBOARD */}
                 <Route path="/" element={<Login />} />
                 <Route exact path="/dashboard" element={<ProtectedRoute />}>
-                  <Route exact path="/dashboard" element={<Dashboard />} />
+                  <Route exact path="/dashboard" element={<Docs />} />
                 </Route>
 
                 {/* PAGES */}

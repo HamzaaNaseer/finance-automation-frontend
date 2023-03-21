@@ -3,8 +3,7 @@ import App from "./App";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { ContextProvider } from "./contexts/ContextProvider";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+
 
 //Alert imports
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
@@ -21,12 +20,10 @@ const options = {
 };
 
 ReactDOM.render(
-  <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
       <ContextProvider>
         <App />
       </ContextProvider>
-    </AlertProvider>
-  </Provider>,
+    </AlertProvider>,
   document.getElementById("root")
 );
