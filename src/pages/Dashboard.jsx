@@ -17,7 +17,7 @@ import { Stacked, Button, SparkLine, Loader, Error } from '../components'
 import { earningData, SparklineAreaData, ecomPieChartData } from '../data/dummy'
 //CONTEXT
 import { useStateContext } from '../contexts/ContextProvider'
-import { useGetHomepageDataQuery, useRefreshHomepageMutation } from '../redux/homepage/homepageApi'
+//import { useGetHomepageDataQuery, useRefreshHomepageMutation } from '../redux/homepage/homepageApi'
 import { useAlert } from 'react-alert'
 import Pyramid from './Charts/Pyramid';
 import Pie from './Charts/Pie';
@@ -27,38 +27,27 @@ import UsersCount from './Charts/UsersCount';
 
 const Dashboard = () => {
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refreshHomepage()
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     refreshHomepage()
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
-  const { data, isLoading, error } = useGetHomepageDataQuery()
-
-  const [refreshHomepage] = useRefreshHomepageMutation()
+  
 
 
   const { currentColor } = useStateContext()
   const alert = useAlert()
-  if (isLoading) return <Loader />
-
-
-  if (error) {
-    console.log("error is ", error)
-    alert.show(error.data.message)
-    alert.removeAll()
-    return <Error />
-  }
-
-
+ 
+  
 
 
 
   const earningData = [
     {
       icon: <MdOutlineSupervisorAccount />,
-      amount: data.complaints.totalComplaints,
+      amount:  100,
       percentage: "",
       title: "Total Complaints",
       iconColor: "#03C9D7",
@@ -67,8 +56,8 @@ const Dashboard = () => {
     },
     {
       icon: <BsFillPatchCheckFill />,
-      amount: data.complaints.resolvedComplaints,
-      percentage: data.complaints.resolvedPercentage + '%',
+      amount:  100,
+      percentage:  '100' + '%',
       title: "Resolved Complaints",
       iconColor: "#03C9D7",
       iconBg: "rgb(254, 201, 15)",
@@ -76,8 +65,8 @@ const Dashboard = () => {
     },
     {
       icon: <VscError />,
-      amount: data.complaints.pendingComplaints,
-      percentage: data.complaints.pendingPercentage + '%',
+      amount:  100,
+      percentage:  '100%' + '%',
       title: "Pending Complaints",
       iconColor: "rgb(228, 106, 118)",
       iconBg: "rgb(255, 244, 229)",
@@ -86,7 +75,7 @@ const Dashboard = () => {
     },
     {
       icon: <AiFillMobile />,
-      amount: data.totalUsers,
+      amount:  '100',
       percentage: "",
       title: "App Users",
       iconColor: "rgb(0, 194, 146)",
@@ -130,7 +119,7 @@ const Dashboard = () => {
 
       <div className='flex gap-10 flex-wrap justify-center'>
         <div>
-          <Pie />
+          {/* <Pie /> */}
         </div>
 
 

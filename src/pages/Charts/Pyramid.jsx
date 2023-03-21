@@ -3,23 +3,13 @@ import { AccumulationChartComponent, AccumulationSeriesCollectionDirective, Accu
 
 import { useStateContext } from '../../contexts/ContextProvider';
 import { Error, Header, Loader } from '../../components';
-import { useGetPyramidDataQuery } from '../../redux/charts/pyramidApi';
+//import { useGetPyramidDataQuery } from '../../redux/charts/pyramidApi';
 import { useAlert } from 'react-alert';
 
 const Pyramid = () => {
   const { currentMode } = useStateContext();
 
 
-  const { data, isLoading, error } = useGetPyramidDataQuery()
-  const alert = useAlert()
-
-  if (isLoading) return <Loader />
-
-  if (error) {
-    alert.error(error.data.message)
-    alert.removeAll()
-    return <Error />
-  }
 
 
   return (
@@ -36,7 +26,7 @@ const Pyramid = () => {
           <AccumulationSeriesCollectionDirective>
             <AccumulationSeriesDirective
               name="Block"
-              dataSource={data.chartData}
+              dataSource={[]}
               xName="x"
               yName="y"
               type="Pyramid"
