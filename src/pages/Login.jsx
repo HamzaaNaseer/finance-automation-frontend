@@ -98,14 +98,7 @@ const Login = () => {
 
                                     </div>
 
-                                    <div className="flex justify-center mb-6">
-
-                                        <a
-                                            href="#!"
-                                            className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
-                                        >Forgot password?</a
-                                        >
-                                    </div>
+                                    
 
                                     <button
                                         type="submit"
