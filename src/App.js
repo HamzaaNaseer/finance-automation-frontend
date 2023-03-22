@@ -32,6 +32,7 @@ import {
   UsersCount,
   Docs,
   Queries,
+  ModuleFinances,
 } from "./pages";
 
 import "./App.css";
@@ -88,7 +89,7 @@ const App = () => {
                 {/* DASHBOARD */}
                 <Route path="/" element={<Login />} />
                 <Route exact path="/dashboard" element={<ProtectedRoute />}>
-                  <Route exact path="/dashboard" element={<Docs />} />
+                  <Route exact path="/dashboard" element={<Dashboard />} />
                 </Route>
 
                 {/* PAGES */}
@@ -119,8 +120,12 @@ const App = () => {
                 <Route exact path="/bar" element={<ProtectedRoute />}>
                   <Route exact path="/bar" element={<Bar />} />
                 </Route>
-                <Route exact path="/pie" element={<ProtectedRoute />}>
-                  <Route exact path="/pie" element={<Pie />} />
+                <Route exact path="/Modules-Progress" element={<ProtectedRoute />}>
+                  <Route exact path="/Modules-Progress" element={<Pie />} />
+                </Route>
+
+                <Route exact path="/Modules-Finances" element={<ProtectedRoute />}>
+                  <Route exact path="/Modules-Finances" element={<ModuleFinances />} />
                 </Route>
                 <Route exact path="/financial" element={<ProtectedRoute />}>
                   <Route exact path="/financial" element={<Financial />} />

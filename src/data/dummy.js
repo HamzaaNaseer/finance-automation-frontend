@@ -588,10 +588,18 @@ export const links = [
   {
     title: "Analysis",
     links: [
-      // {
-      //   name: "Frequent-Complaints",
-      //   icon: <FiPieChart />,
-      // },
+      {
+        name: "Modules-Progress",
+        icon: <FiPieChart />,
+        allowedRoles:["DONEE","DONER"]
+
+      },
+      {
+        name: "Modules-Finances",
+        icon: <FiPieChart />,
+        allowedRoles:["DONEE","DONER"]
+
+      },
       // {
       //   name: "Block-Wise-Complaints",
       //   icon: <GiLouvrePyramid />,

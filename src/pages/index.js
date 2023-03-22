@@ -12,6 +12,7 @@ export { default as Stacked } from "./Charts/Stacked";
 export { default as UsersCount } from "./Charts/UsersCount";
 export {default as Docs} from './Docs'
 export {default as Queries} from './Queries'
+export {default as ModuleFinances} from './Charts/Module-Finances'
 
 
 export { default as Login } from "./Login";
