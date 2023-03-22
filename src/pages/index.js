@@ -10,8 +10,12 @@ export { default as Pie } from "./Charts/Pie";
 export { default as Pyramid } from "./Charts/Pyramid";
 export { default as Stacked } from "./Charts/Stacked";
 export { default as UsersCount } from "./Charts/UsersCount";
+export {default as BarChart} from './Charts/BarChart'
 export {default as Docs} from './Docs'
 export {default as Queries} from './Queries'
+export {default as ModuleFinances} from './Charts/Module-Finances'
+export {default as FinancialManagement} from './FinancialManagement'
+export {default as ProjectManagement} from './ProjectManagement'
 
 
 export { default as Login } from "./Login";

@@ -522,8 +522,7 @@ export const links = [
       {
         name: "dashboard",
         icon: <FiShoppingBag />,
-        allowedRoles:["DONER","DONEE"]
-
+        allowedRoles: ["DONER", "DONEE"],
       },
     ],
   },
@@ -562,36 +561,44 @@ export const links = [
       {
         name: "Project-Management",
         icon: <HiUserGroup />,
-        allowedRoles:["DONEE"]
+        allowedRoles: ["DONEE"],
       },
       {
         name: "Financial-Management",
         icon: <HiUserGroup />,
-        allowedRoles:["DONER","DONEE"]
-
-
+        allowedRoles: ["DONER", "DONEE"],
+      },
+      {
+        name: "Project-Management",
+        icon: <GiEntryDoor />,
+        allowedRoles: ["DONEE", "DONER"],
       },
       {
         name: "Docs",
         icon: <HiUserGroup />,
-        allowedRoles:["DONEE","DONER"]
-
+        allowedRoles: ["DONEE", "DONER"],
       },
       {
         name: "Queries",
         icon: <HiUserGroup />,
-        allowedRoles:["DONEE","DONER"]
-
+        allowedRoles: ["DONEE", "DONER"],
       },
     ],
   },
   {
     title: "Analysis",
     links: [
-      // {
-      //   name: "Frequent-Complaints",
-      //   icon: <FiPieChart />,
-      // },
+      {
+        name: "Modules-Progress",
+        icon: <FiPieChart />,
+        allowedRoles: ["DONEE", "DONER"],
+      },
+      {
+        name: "Modules-Finances",
+        icon: <FiPieChart />,
+        allowedRoles: ["DONEE", "DONER"],
+      },
+
       // {
       //   name: "Block-Wise-Complaints",
       //   icon: <GiLouvrePyramid />,
