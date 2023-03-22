@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from '../components'
-import { BsFillPatchCheckFill } from "react-icons/bs";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { VscError } from 'react-icons/vsc'
-import { AiFillMobile } from 'react-icons/ai'
 import BarChart from './Charts/BarChart';
+import axios from 'axios';
+import { BsFillPatchCheckFill } from "react-icons/bs";
 
 
 
@@ -12,18 +12,18 @@ import BarChart from './Charts/BarChart';
 const earningData = [
     {
         icon: <MdOutlineSupervisorAccount />,
-        amount: 100,
+        amount: "Total Amount : 1500$",
         percentage: "",
-        title: "Total Complaints",
+        title: "Transfer via organization card",
         iconColor: "#03C9D7",
         iconBg: "#E5FAFB",
         pcColor: "text-red-600",
     },
     {
         icon: <BsFillPatchCheckFill />,
-        amount: 100,
-        percentage: '100' + '%',
-        title: "Resolved Complaints",
+        amount: "Total Amount: $1.5 Mill",
+        percentage: '',
+        title: "Transfer Via Bank Account",
         iconColor: "#03C9D7",
         iconBg: "rgb(254, 201, 15)",
         pcColor: "text-green-600",
@@ -31,8 +31,8 @@ const earningData = [
     {
         icon: <VscError />,
         amount: 100,
-        percentage: '100%' + '%',
-        title: "Pending Complaints",
+        percentage: "",
+        title: "Funding Backtracking",
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
 
@@ -41,31 +41,27 @@ const earningData = [
 
 ];
 
-const dummyData = [
-    {
-        icon: <MdOutlineSupervisorAccount />,
-        organization: "Ministry of Economics Affairs Divisions",
-        date: "March 15, 2023",
-        amount: "$0.5 Million",
-        description: "Funding-01 for GMF",
-    },
-    {
-        icon: <BsFillPatchCheckFill />,
-        organization: "Globex Corp.",
-        date: "March 10, 2023",
-        amount: "$8,000",
-        description: "Payment for product delivery",
-    },
-    {
-        icon: <VscError />,
-        organization: "Hooli Inc.",
-        date: "March 5, 2023",
-        amount: "$5,000",
-        description: "Payment for consulting services",
-    },
-];
+
+
+const icons = [
+    <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />, <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />
+]
 
 const FinancialManagement = () => {
+    const [data, setData] = useState()
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/financial-management`, {
+                headers: {
+                    'auth-token': localStorage.getItem('access-token-fyp')
+                }
+            })
+            console.log("--------> ", data)
+            setData(data)
+        }
+        fetchData()
+    }, [])
     return (
         <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
             <Header title="Financial Management" category="Page" />
@@ -89,7 +85,7 @@ const FinancialManagement = () => {
 
             </div>
 
-            <div className='w-[500px] mx-auto'>
+            <div className=' w-full md:w-[500px] lg:w-[700px] mx-auto'>
 
                 <BarChart />
             </div>
@@ -98,24 +94,29 @@ const FinancialManagement = () => {
             <Header title="Transaction History" category="transactions" />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {dummyData.map((item, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="h-8 w-8">{item.icon}</div>
+                {data?.transactions.map((item, index) => {
+                    const randomIndex = Math.floor(Math.random() * icons.length);
+
+                    return (
+                        <div
+                            key={index}
+                            className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="h-8 w-8">{icons[randomIndex]}</div>
+                                <div>
+                                    <p className="text-gray-900 font-medium">{item.organizationName}</p>
+                                    <p className="text-gray-500 text-sm">{new Date(item.date).toLocaleString()}</p>
+                                </div>
+                            </div>
                             <div>
-                                <p className="text-gray-900 font-medium">{item.organization}</p>
-                                <p className="text-gray-500 text-sm">{item.date}</p>
+                                <p className="text-gray-900 font-medium">{item.amount}$</p>
+                                <p className="text-gray-500 text-sm">{item.description}</p>
                             </div>
                         </div>
-                        <div>
-                            <p className="text-gray-900 font-medium">{item.amount}</p>
-                            <p className="text-gray-500 text-sm">{item.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    )
+                }
+                )}
             </div>
 
 

@@ -8,57 +8,13 @@ import { AiFillWallet } from 'react-icons/ai'
 import { RiTeamLine } from 'react-icons/ri'
 import axios from 'axios';
 
-const dummyData = [
-    {
-        icon: <MdOutlineSupervisorAccount />,
-        organization: "Ministry of Climate Change",
-        date: "March 15, 2023",
-        amount: "$0.5 Million",
-        description: "pending",
-    },
-    {
-        icon: <BsFillPatchCheckFill />,
-        organization: "Globex Corp.",
-        date: "March 10, 2023",
-        amount: "$8,000",
-        description: "pending",
-    }
-];
+
 
 const icons = [
     <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />, <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />
 ]
 
-const ProcurementData = [
-    {
-        icon: <MdOutlineSupervisorAccount />,
-        organization: "Utility-01",
-        date: "",
-        amount: "100$",
-        description: "successfully",
-    },
-    {
-        icon: <BsFillPatchCheckFill />,
-        organization: "Utility-02",
-        date: "",
-        amount: "8,000$",
-        description: "successfully",
-    },
-    {
-        icon: <MdOutlineSupervisorAccount />,
-        organization: "Utility-01",
-        date: "",
-        amount: "100$",
-        description: "successfully",
-    },
-    {
-        icon: <BsFillPatchCheckFill />,
-        organization: "Utility-02",
-        date: "",
-        amount: "8,000$",
-        description: "successfully",
-    }
-];
+
 const earningData = [
     {
         icon: <AiFillWallet />,

@@ -16,6 +16,7 @@ export {default as Queries} from './Queries'
 export {default as ModuleFinances} from './Charts/Module-Finances'
 export {default as FinancialManagement} from './FinancialManagement'
 export {default as ProjectManagement} from './ProjectManagement'
+export {default as ModuleCompletionBar} from './Charts/moduleCompletionBar'
 
 
 export { default as Login } from "./Login";
