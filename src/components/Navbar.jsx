@@ -1,23 +1,15 @@
 import React, { useEffect } from "react";
 //icons import
 import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
-import { FiShoppingCart } from "react-icons/fi";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { IoMdPerson } from "react-icons/io";
 
 //esfusion imports
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-//components import
-import { Cart, Chat, Notification, UserProfile } from ".";
+
 
 //context
 import { useStateContext } from "../contexts/ContextProvider";
 
-//dummy data
-import avatar from "../data/avatar.jpg";
 import { useNavigate } from "react-router-dom";
 
 
@@ -40,11 +32,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = () => {
   const {
-    activeMenu,
     setActiveMenu,
-    isClicked,
-    setIsClickedm,
-    handleClick,
     screenSize,
     setScreenSize,
     currentColor,
@@ -71,7 +59,7 @@ const Navbar = () => {
 
 
   return (
-    <div className="flex justify-between p-2 md:mx-6 relative">
+    <div className="flex justify-between p-2 md:ml-6 md:mr-6 w-[100%]">
       <NavButton
         title="Menu"
         customFunc={() => setActiveMenu((prev) => !prev)}
@@ -98,7 +86,7 @@ const Navbar = () => {
         {isAuthenticated && (
           <TooltipComponent content="Profile" position="BottomCenter">
             <div
-              className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded lg"
+              className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded lg mt-1"
               onClick={() => { }}
             >
               <img
@@ -112,7 +100,6 @@ const Navbar = () => {
                   {"Rehan"}
                 </span>
               </p>
-              <MdKeyboardArrowDown className="text-gray-400 text-14" />
             </div>
           </TooltipComponent>
         )}

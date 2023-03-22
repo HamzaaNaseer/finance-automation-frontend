@@ -33,6 +33,9 @@ import {
   Docs,
   Queries,
   ModuleFinances,
+  FinancialManagement,
+  BarChart,
+  ProjectManagement,
 } from "./pages";
 
 import "./App.css";
@@ -94,10 +97,10 @@ const App = () => {
 
                 {/* PAGES */}
                 <Route exact path="/Project-Management" element={<ProtectedRoute />}>
-                  <Route exact path="/Project-Management" element={<Docs />} />
+                  <Route exact path="/Project-Management" element={<ProjectManagement />} />
                 </Route>
                 <Route exact path="/Financial-Management" element={<ProtectedRoute />}>
-                  <Route exact path="/Financial-Management" element={<Docs />} />
+                  <Route exact path="/Financial-Management" element={<FinancialManagement />} />
                 </Route>
                 <Route exact path="/Docs" element={<ProtectedRoute />}>
                   <Route exact path="/Docs" element={<Docs />} />
@@ -120,6 +123,8 @@ const App = () => {
                 <Route exact path="/bar" element={<ProtectedRoute />}>
                   <Route exact path="/bar" element={<Bar />} />
                 </Route>
+
+              
                 <Route exact path="/Modules-Progress" element={<ProtectedRoute />}>
                   <Route exact path="/Modules-Progress" element={<Pie />} />
                 </Route>
