@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { Header } from '../components'
 
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { VscError } from 'react-icons/vsc'
-import {AiFillWallet} from 'react-icons/ai'
-import {RiTeamLine} from 'react-icons/ri'
+import { AiFillWallet } from 'react-icons/ai'
+import { RiTeamLine } from 'react-icons/ri'
+import axios from 'axios';
+
 const dummyData = [
     {
         icon: <MdOutlineSupervisorAccount />,
@@ -22,6 +24,10 @@ const dummyData = [
         description: "pending",
     }
 ];
+
+const icons = [
+    <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />, <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />
+]
 
 const ProcurementData = [
     {
@@ -71,7 +77,7 @@ const earningData = [
     },
     {
         icon: <VscError />,
-        
+
         title: "Project  Backtracking",
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
@@ -84,6 +90,20 @@ const earningData = [
 
 
 const ProjectManagement = () => {
+    const [data, setData] = useState()
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/project-management`, {
+                headers: {
+                    'auth-token': localStorage.getItem('access-token-fyp')
+                }
+            })
+            console.log("--------> ", data)
+            setData(data)
+        }
+        fetchData()
+    }, [])
     return (
         <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
             <Header category="Page" title="Project Management" />
@@ -113,24 +133,29 @@ const ProjectManagement = () => {
 
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {dummyData.map((item, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="h-8 w-8">{item.icon}</div>
+                {data?.upcomingPayments.map((item, index) => {
+                    const randomIndex = Math.floor(Math.random() * icons.length);
+
+                    return (
+                        <div
+                            key={index}
+                            className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="h-8 w-8">{icons[randomIndex]}</div>
+                                <div>
+                                    <p className="text-gray-900 font-medium">{item.organization}</p>
+                                    <p className="text-gray-500 text-sm">{new Date(item.date).toLocaleString()}</p>
+                                </div>
+                            </div>
                             <div>
-                                <p className="text-gray-900 font-medium">{item.organization}</p>
-                                <p className="text-gray-500 text-sm">{item.date}</p>
+                                <p className="text-gray-900 font-medium">{item.amount}$</p>
+                                <p className="text-gray-500 text-sm">pending</p>
                             </div>
                         </div>
-                        <div>
-                            <p className="text-gray-900 font-medium">{item.amount}</p>
-                            <p className="text-gray-500 text-sm">{item.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    )
+                }
+                )}
             </div>
 
 
@@ -140,27 +165,31 @@ const ProjectManagement = () => {
 
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {ProcurementData.map((item, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="h-8 w-8">{item.icon}</div>
-                            
+                {data?.procurement.map((item, index) => {
+                    const randomIndex = Math.floor(Math.random() * icons.length);
 
-                            <div>
-                                <p className="text-gray-900 font-medium">{item.organization}</p>
-                                <p className="text-gray-500 text-sm">{item.date}</p>
+                    return (
+                        <div
+                            key={index}
+                            className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="h-8 w-8">{icons[randomIndex]}</div>
+
+
+                                <div>
+                                    <p className="text-gray-900 font-medium">{item.title}</p>
+                                    <p className="text-gray-500 text-sm">{item.date}</p>
+                                </div>
+
                             </div>
-
+                            <div>
+                                <p className="text-gray-900 font-medium">{item.amount}$</p>
+                                <p className="text-gray-500 text-sm">Successfully</p>
+                            </div>
                         </div>
-                        <div>
-                            <p className="text-gray-900 font-medium">{item.amount}</p>
-                            <p className="text-gray-500 text-sm">{item.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    )
+                })}
             </div>
         </div>
     )
