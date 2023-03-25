@@ -10,7 +10,6 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 //FILES IMPORT
 import {
   Navbar,
-  Footer,
   Sidebar,
   ThemeSettings,
   ProtectedRoute,
@@ -21,25 +20,17 @@ import { useStateContext } from "./contexts/ContextProvider";
 
 import {
   Dashboard,
-  Area,
-  Bar,
-  ColorMapping,
-  Financial,
-  Line,
   Pie,
-  Pyramid,
   Login,
-  UsersCount,
   Docs,
   Queries,
   ModuleFinances,
   FinancialManagement,
-  BarChart,
   ProjectManagement,
 } from "./pages";
 
 import "./App.css";
-
+import DonorProtection from "./components/DonerProtection";
 
 const App = () => {
   const {
@@ -96,11 +87,27 @@ const App = () => {
                 </Route>
 
                 {/* PAGES */}
-                <Route exact path="/Project-Management" element={<ProtectedRoute />}>
-                  <Route exact path="/Project-Management" element={<ProjectManagement />} />
+                <Route
+                  exact
+                  path="/Project-Management"
+                  element={<DonorProtection />}
+                >
+                  <Route
+                    exact
+                    path="/Project-Management"
+                    element={<ProjectManagement />}
+                  />
                 </Route>
-                <Route exact path="/Financial-Management" element={<ProtectedRoute />}>
-                  <Route exact path="/Financial-Management" element={<FinancialManagement />} />
+                <Route
+                  exact
+                  path="/Financial-Management"
+                  element={<ProtectedRoute />}
+                >
+                  <Route
+                    exact
+                    path="/Financial-Management"
+                    element={<FinancialManagement />}
+                  />
                 </Route>
                 <Route exact path="/Docs" element={<ProtectedRoute />}>
                   <Route exact path="/Docs" element={<Docs />} />
@@ -109,61 +116,31 @@ const App = () => {
                   <Route exact path="/Queries" element={<Queries />} />
                 </Route>
 
-                
-
                 <Route path="/login" element={<Login />} />
 
                 {/* Charts */}
-                <Route exact path="/line" element={<ProtectedRoute />}>
-                  <Route exact path="/line" element={<Line />} />
-                </Route>
-                <Route exact path="/area" element={<ProtectedRoute />}>
-                  <Route exact path="/area" element={<Area />} />
-                </Route>
-                <Route exact path="/bar" element={<ProtectedRoute />}>
-                  <Route exact path="/bar" element={<Bar />} />
-                </Route>
-
               
-                <Route exact path="/Modules-Progress" element={<ProtectedRoute />}>
+
+                <Route
+                  exact
+                  path="/Modules-Progress"
+                  element={<ProtectedRoute />}
+                >
                   <Route exact path="/Modules-Progress" element={<Pie />} />
                 </Route>
 
-                <Route exact path="/Modules-Finances" element={<ProtectedRoute />}>
-                  <Route exact path="/Modules-Finances" element={<ModuleFinances />} />
-                </Route>
-                <Route exact path="/financial" element={<ProtectedRoute />}>
-                  <Route exact path="/financial" element={<Financial />} />
-                </Route>
-                <Route exact path="/color-mapping" element={<ProtectedRoute />}>
-                  <Route
-                    exact
-                    path="/color-mapping"
-                    element={<ColorMapping />}
-                  />
-                </Route>
                 <Route
                   exact
-                  path="/Frequent-Complaints"
-                  element={<ProtectedRoute />}
-                >
-                  <Route exact path="/Frequent-Complaints" element={<Pie />} />
-                </Route>
-                <Route
-                  exact
-                  path="/Block-Wise-Complaints"
+                  path="/Modules-Finances"
                   element={<ProtectedRoute />}
                 >
                   <Route
                     exact
-                    path="/Block-Wise-Complaints"
-                    element={<Pyramid />}
+                    path="/Modules-Finances"
+                    element={<ModuleFinances />}
                   />
                 </Route>
-
-                <Route exact path="/users-count" element={<ProtectedRoute />}>
-                  <Route exact path="/users-count" element={<UsersCount />} />
-                </Route>
+                
               </Routes>
             </div>
           </div>

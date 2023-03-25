@@ -3,9 +3,16 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { Header } from '../components'
 import { useStateContext } from '../contexts/ContextProvider'
+import { AiFillDelete } from 'react-icons/ai'
+import { useAlert } from 'react-alert'
+
 
 const Docs = () => {
   const [docs, setDocs] = useState([])
+  const [refresh, setRefresh] = useState("test")
+  const alert = useAlert()
+
+
   const { currentColor } =
     useStateContext()
   useEffect(() => {
@@ -17,7 +24,7 @@ const Docs = () => {
     }
     fetchData()
 
-  }, [])
+  }, [refresh])
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -40,16 +47,39 @@ const Docs = () => {
 
     axios.post(`${process.env.REACT_APP_LOCALHOST}/doc/add`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        'auth-token': localStorage.getItem('access-token-fyp')
+
       }
     })
       .then(response => {
+        setRefresh(Math.random())
+
         console.log(response.data);
       })
       .catch(error => {
         console.log(error);
       });
     closeModal();
+  }
+
+  const deleteDoc = async (id,postedBy) => {
+    const user = JSON.parse(localStorage.getItem('user-data'))
+    if(user._id !== postedBy){
+      alert.error("not allowed")
+
+
+      return
+    }
+
+
+
+
+    await axios.delete(`${process.env.REACT_APP_LOCALHOST}/doc/delete/${id}`)
+
+
+    setRefresh(Math.random())
+
   }
 
 
@@ -105,9 +135,7 @@ const Docs = () => {
           return (
             <div className="flex items-center justify-between border-b border-gray-200 py-4">
               <div className="flex items-center">
-                <svg className="h-6 w-6 text-gray-400 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+                <AiFillDelete color='red' className='mr-2 cursor-pointer' onClick={() => { deleteDoc(d._id,d.postedBy) }} />
                 <span className="font-medium text-gray-800">{d.name}</span>
               </div>
               <div className="flex items-center">

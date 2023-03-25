@@ -1,46 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 //icons
-import { BsCurrencyDollar } from 'react-icons/bs'
-import { GoPrimitiveDot } from 'react-icons/go'
+
 import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { HiOutlineRefresh } from "react-icons/hi";
-import { BsBoxSeam, BsFillPatchCheckFill } from "react-icons/bs";
-import { FiBarChart } from "react-icons/fi";
-import { VscError } from 'react-icons/vsc'
-
-import { AiFillMobile } from 'react-icons/ai'
+import {  BsFillPatchCheckFill } from "react-icons/bs";
 
 
-//COMPONENTS
-import { Stacked, Button, SparkLine, Loader, Error } from '../components'
-//DATA
-import { earningData, SparklineAreaData, ecomPieChartData } from '../data/dummy'
-//CONTEXT
-import { useStateContext } from '../contexts/ContextProvider'
-//import { useGetHomepageDataQuery, useRefreshHomepageMutation } from '../redux/homepage/homepageApi'
-import { useAlert } from 'react-alert'
-import Pyramid from './Charts/Pyramid';
+
+
+
 import Pie from './Charts/Pie';
-import UsersCount from './Charts/UsersCount';
 import ModuleCompletionBar from './Charts/moduleCompletionBar';
 
 
 
 const Dashboard = () => {
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     refreshHomepage()
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
-
-
-
-  const { currentColor } = useStateContext()
-  const alert = useAlert()
-
 
 
 
