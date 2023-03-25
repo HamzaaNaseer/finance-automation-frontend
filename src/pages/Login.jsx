@@ -33,7 +33,7 @@ const Login = () => {
             localStorage.setItem("access-token-fyp", headers['auth-token'])
             localStorage.setItem("user-data", JSON.stringify(data))
 
-            navigate("/docs")
+            navigate("/dashboard")
 
         } catch (error) {
             alert.error(error?.response?.data?.message)
@@ -53,8 +53,7 @@ const Login = () => {
         if (authToken) {
             console.log("entered is Authenticated")
 
-            //navigate('/dashboard')
-            navigate("/docs")
+            navigate('/dashboard')
 
         }
     }, [])

@@ -1,42 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Error, Header, Loader, Pie as PieChart } from '../../components';
 //import { useGetPieBarDataQuery, useRefreshPiebarMutation } from '../../redux/charts/piechartApi';
-import { useAlert } from 'react-alert';
+import axios from 'axios';
 
 
-const data =   [
-  {
-      "x": "module 1",
-      "y": 10,
-      "text": "10 %"
-  },
-  {
-      "x": "module 2",
-      "y": 10,
-      "text": "10 %"
-  },
-  {
-      "x": "module 3",
-      "y": 100,
-      "text": "100 %"
-  },
-  {
-      "x": "module 4",
-      "y": 50,
-      "text": "50 %"
-  },
-  {
-      "x": "module 5",
-      "y": 20,
-      "text": "20 %"
-  }
-]
+
+
 
 const Pie = () => {
-  
 
-  
+  const [data, setData] = useState()
+  useEffect(() => {
+    const fetchData = async () => {
+
+      const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/charts/pie`, {
+        headers: {
+          'auth-token': localStorage.getItem('access-token-fyp')
+        }
+      })
+      console.log("--------> ", data)
+      setData(data.chartData)
+    }
+    fetchData()
+  }, [])
+
+
+
+
 
 
   return <>

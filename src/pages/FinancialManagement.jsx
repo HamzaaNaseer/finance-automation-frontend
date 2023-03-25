@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from '../components'
-import { BsFillPatchCheckFill } from "react-icons/bs";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { VscError } from 'react-icons/vsc'
-import { AiFillMobile } from 'react-icons/ai'
 import BarChart from './Charts/BarChart';
+import axios from 'axios';
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { useStateContext } from '../contexts/ContextProvider';
 
 
 
@@ -12,18 +13,18 @@ import BarChart from './Charts/BarChart';
 const earningData = [
     {
         icon: <MdOutlineSupervisorAccount />,
-        amount: 100,
+        amount: "Total Amount : 1500$",
         percentage: "",
-        title: "Total Complaints",
+        title: "Transfer via organization card",
         iconColor: "#03C9D7",
         iconBg: "#E5FAFB",
         pcColor: "text-red-600",
     },
     {
         icon: <BsFillPatchCheckFill />,
-        amount: 100,
-        percentage: '100' + '%',
-        title: "Resolved Complaints",
+        amount: "Total Amount: $1.5 Mill",
+        percentage: '',
+        title: "Transfer Via Bank Account",
         iconColor: "#03C9D7",
         iconBg: "rgb(254, 201, 15)",
         pcColor: "text-green-600",
@@ -31,8 +32,8 @@ const earningData = [
     {
         icon: <VscError />,
         amount: 100,
-        percentage: '100%' + '%',
-        title: "Pending Complaints",
+        percentage: "",
+        title: "Funding Backtracking",
         iconColor: "rgb(228, 106, 118)",
         iconBg: "rgb(255, 244, 229)",
 
@@ -41,31 +42,70 @@ const earningData = [
 
 ];
 
-const dummyData = [
-    {
-        icon: <MdOutlineSupervisorAccount />,
-        organization: "Ministry of Economics Affairs Divisions",
-        date: "March 15, 2023",
-        amount: "$0.5 Million",
-        description: "Funding-01 for GMF",
-    },
-    {
-        icon: <BsFillPatchCheckFill />,
-        organization: "Globex Corp.",
-        date: "March 10, 2023",
-        amount: "$8,000",
-        description: "Payment for product delivery",
-    },
-    {
-        icon: <VscError />,
-        organization: "Hooli Inc.",
-        date: "March 5, 2023",
-        amount: "$5,000",
-        description: "Payment for consulting services",
-    },
-];
+
+
+const icons = [
+    <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />, <MdOutlineSupervisorAccount />, <BsFillPatchCheckFill />
+]
 
 const FinancialManagement = () => {
+    const [data, setData] = useState()
+    const [barData, setBarData] = useState()
+    const { currentColor } = useStateContext()
+    const [month, setMonth] = useState("")
+    const [amount, setAmount] = useState("")
+    const [color, setColor] = useState("")
+    const [refresh, setRefresh] = useState("test")
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/financial-management`, {
+                headers: {
+                    'auth-token': localStorage.getItem('access-token-fyp')
+                }
+            })
+            console.log("--------> ", data)
+            setData(data)
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/monthly/get`)
+            console.log("--------> ", data)
+            setBarData(data)
+        }
+        fetchData()
+    }, [refresh])
+
+    const [showModal, setShowModal] = useState(false);
+
+
+
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const updateMonthly = async () => {
+
+        await axios.patch(`${process.env.REACT_APP_LOCALHOST}/monthly/update`, { month, color, amount })
+        closeModal()
+
+
+        setRefresh(Math.random())
+
+        setAmount("")
+        setColor("")
+        setMonth("")
+
+    }
+
     return (
         <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
             <Header title="Financial Management" category="Page" />
@@ -89,33 +129,96 @@ const FinancialManagement = () => {
 
             </div>
 
-            <div className='w-[500px] mx-auto'>
+            <div className=' w-full md:w-[500px] lg:w-[700px] mx-auto'>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5"
+                    onClick={openModal}
+                    style={{ background: currentColor }}
 
-                <BarChart />
+                >
+                    Update
+                </button>
+                {showModal && (
+                    <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                        <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+                        <div className="modal-content bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <div className="modal-header flex justify-between items-center p-2">
+                                <h2 className="text-2xl font-bold">Update Monthly Details</h2>
+                                <button
+                                    className="bg-transparent text-black opacity-50 text-3xl font-bold leading-none hover:text-black p-2 rounded-md focus:outline-none"
+                                    onClick={closeModal}
+                                >
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+
+                            <div className="modal-body p-2">
+                                <input
+                                    className="border rounded w-full p-2"
+                                    placeholder='Enter month name'
+                                    value={month}
+                                    onChange={(e) => { setMonth(e.target.value) }}
+                                />
+                                <input
+                                    className="border rounded w-full p-2"
+                                    placeholder='Enter bill amount'
+                                    value={amount}
+                                    onChange={(e) => { setAmount(e.target.value) }}
+                                />
+                                <input
+                                    className="border rounded w-full p-2"
+                                    placeholder='enter color name'
+                                    value={color}
+                                    onChange={(e) => { setColor(e.target.value) }}
+                                />
+                            </div>
+
+                            <div className="modal-footer flex justify-end pt-2">
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={updateMonthly}
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {
+
+                    barData && <BarChart data={barData} />
+                }
             </div>
 
 
             <Header title="Transaction History" category="transactions" />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {dummyData.map((item, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="h-8 w-8">{item.icon}</div>
+                {data?.transactions.map((item, index) => {
+                    const randomIndex = Math.floor(Math.random() * icons.length);
+
+                    return (
+                        <div
+                            key={index}
+                            className="bg-white rounded-lg shadow-md p-4 flex items-center justify-between"
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="h-8 w-8">{icons[randomIndex]}</div>
+                                <div>
+                                    <p className="text-gray-900 font-medium">{item.organizationName}</p>
+                                    <p className="text-gray-500 text-sm">{new Date(item.date).toLocaleString()}</p>
+                                </div>
+                            </div>
                             <div>
-                                <p className="text-gray-900 font-medium">{item.organization}</p>
-                                <p className="text-gray-500 text-sm">{item.date}</p>
+                                <p className="text-gray-900 font-medium">{item.amount}$</p>
+                                <p className="text-gray-500 text-sm">{item.description}</p>
                             </div>
                         </div>
-                        <div>
-                            <p className="text-gray-900 font-medium">{item.amount}</p>
-                            <p className="text-gray-500 text-sm">{item.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    )
+                }
+                )}
             </div>
 
 

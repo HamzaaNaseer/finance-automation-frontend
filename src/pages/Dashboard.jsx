@@ -1,86 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 //icons
-import { BsCurrencyDollar } from 'react-icons/bs'
-import { GoPrimitiveDot } from 'react-icons/go'
+
 import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { HiOutlineRefresh } from "react-icons/hi";
-import { BsBoxSeam, BsFillPatchCheckFill } from "react-icons/bs";
-import { FiBarChart } from "react-icons/fi";
-import { VscError } from 'react-icons/vsc'
-
-import { AiFillMobile } from 'react-icons/ai'
+import {  BsFillPatchCheckFill } from "react-icons/bs";
 
 
-//COMPONENTS
-import { Stacked, Button, SparkLine, Loader, Error } from '../components'
-//DATA
-import { earningData, SparklineAreaData, ecomPieChartData } from '../data/dummy'
-//CONTEXT
-import { useStateContext } from '../contexts/ContextProvider'
-//import { useGetHomepageDataQuery, useRefreshHomepageMutation } from '../redux/homepage/homepageApi'
-import { useAlert } from 'react-alert'
-import Pyramid from './Charts/Pyramid';
+
+
+
 import Pie from './Charts/Pie';
-import UsersCount from './Charts/UsersCount';
+import ModuleCompletionBar from './Charts/moduleCompletionBar';
 
 
 
 const Dashboard = () => {
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     refreshHomepage()
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  
-
-
-  const { currentColor } = useStateContext()
-  const alert = useAlert()
- 
-  
 
 
 
   const earningData = [
     {
       icon: <MdOutlineSupervisorAccount />,
-      amount:  100,
+      amount: 4,
       percentage: "",
-      title: "Total Complaints",
+      title: "Total Modules",
       iconColor: "#03C9D7",
       iconBg: "#E5FAFB",
       pcColor: "text-red-600",
     },
     {
       icon: <BsFillPatchCheckFill />,
-      amount:  100,
-      percentage:  '100' + '%',
-      title: "Resolved Complaints",
+      amount: 39000000,
+      percentage: '75' + '%',
+      title: "Finances Consumed",
       iconColor: "#03C9D7",
       iconBg: "rgb(254, 201, 15)",
       pcColor: "text-green-600",
-    },
-    {
-      icon: <VscError />,
-      amount:  100,
-      percentage:  '100%' + '%',
-      title: "Pending Complaints",
-      iconColor: "rgb(228, 106, 118)",
-      iconBg: "rgb(255, 244, 229)",
-
-      pcColor: "text-red-600",
-    },
-    {
-      icon: <AiFillMobile />,
-      amount:  '100',
-      percentage: "",
-      title: "App Users",
-      iconColor: "rgb(0, 194, 146)",
-      iconBg: "rgb(235, 250, 242)",
-      pcColor: "text-red-600",
     },
   ];
 
@@ -120,6 +75,14 @@ const Dashboard = () => {
       <div className='flex gap-10 flex-wrap justify-center'>
         <div>
           <Pie />
+        </div>
+
+
+      </div>
+
+      <div className='flex gap-10 flex-wrap justify-center'>
+        <div>
+          <ModuleCompletionBar />
         </div>
 
 

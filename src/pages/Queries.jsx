@@ -7,13 +7,14 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 
 
-const CommentList = ({ data }) => {
+const CommentList = ({ data,setRefresh }) => {
 
     const [showModal, setShowModal] = useState(false);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [id, setId] = useState("")
     const { currentColor } = useStateContext()
+    
 
     const handleCommentsClick = (commentList, id) => {
         setComments(commentList);
@@ -39,6 +40,7 @@ const CommentList = ({ data }) => {
             }
         })
         console.log("data is ", data)
+        setRefresh(Math.random())
 
         setNewComment("");
 
@@ -98,11 +100,15 @@ const CommentList = ({ data }) => {
 const Queries = () => {
 
 
+
+
+
     const [data, setData] = useState([])
     const { currentColor } = useStateContext()
 
     const [showModal, setShowModal] = useState(false);
     const [subject, setSubject] = useState("")
+    const [refresh, setRefresh] = useState("test")
 
     const openModal = () => {
         setShowModal(true);
@@ -121,6 +127,8 @@ const Queries = () => {
             }
         })
             .then(response => {
+                setRefresh(Math.random())
+
                 console.log(response.data);
             })
             .catch(error => {
@@ -139,7 +147,7 @@ const Queries = () => {
         }
         fetchData()
 
-    }, [])
+    }, [refresh])
 
 
 
@@ -190,7 +198,7 @@ const Queries = () => {
                 </div>
             )}
             {
-                data && <CommentList data={data} />
+                data && <CommentList data={data} setRefresh={setRefresh}/>
 
             }
 
