@@ -6,6 +6,7 @@ import BarChart from './Charts/BarChart';
 import axios from 'axios';
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { useStateContext } from '../contexts/ContextProvider';
+import { useAlert } from 'react-alert'
 
 
 
@@ -29,16 +30,7 @@ const earningData = [
         iconBg: "rgb(254, 201, 15)",
         pcColor: "text-green-600",
     },
-    {
-        icon: <VscError />,
-        amount: 100,
-        percentage: "",
-        title: "Funding Backtracking",
-        iconColor: "rgb(228, 106, 118)",
-        iconBg: "rgb(255, 244, 229)",
 
-        pcColor: "text-red-600",
-    },
 
 ];
 
@@ -55,7 +47,12 @@ const FinancialManagement = () => {
     const [month, setMonth] = useState("")
     const [amount, setAmount] = useState("")
     const [color, setColor] = useState("")
+    const [financeDoc, setFinanceDoc] = useState("")
+    const [showDocModal, setShowDocModal] = useState(false)
     const [refresh, setRefresh] = useState("test")
+    const user = JSON.parse(localStorage.getItem("user-data"))
+
+    const alert = useAlert()
     useEffect(() => {
         const fetchData = async () => {
 
@@ -82,14 +79,43 @@ const FinancialManagement = () => {
 
     const [showModal, setShowModal] = useState(false);
 
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const { data } = await axios.get(`${process.env.REACT_APP_LOCALHOST}/doc/finance-doc`)
+            console.log("FINANCE DOC DATA ", data)
+            setFinanceDoc(data.doc[0].link)
+        }
+        fetchData()
+    }, [refresh])
+
+
 
 
     const openModal = () => {
+        if (user.role !== "DONEE") {
+            alert.error("ONLY DONEE IS ALLOWED")
+            return
+
+        }
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
+    };
+
+    const openDocModal = () => {
+        if (user.role !== "DONEE") {
+            alert.error("ONLY DONEE IS ALLOWED")
+            return
+
+        }
+        setShowDocModal(true);
+    };
+
+    const closeDocModal = () => {
+        setShowDocModal(false);
     };
 
     const updateMonthly = async () => {
@@ -104,7 +130,43 @@ const FinancialManagement = () => {
         setColor("")
         setMonth("")
 
+
     }
+
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
+
+    const handleUpload = () => {
+        const formData = new FormData();
+        formData.append('doc', selectedFile);
+
+        axios.patch(`${process.env.REACT_APP_LOCALHOST}/doc/update/finances`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'auth-token': localStorage.getItem('access-token-fyp')
+
+            }
+        })
+            .then(response => {
+                closeDocModal()
+                setRefresh(Math.random())
+
+                console.log(response.data);
+            })
+            .catch(error => {
+                closeDocModal()
+                console.log(error);
+            });
+
+        closeDocModal()
+    }
+
 
     return (
         <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
@@ -137,6 +199,14 @@ const FinancialManagement = () => {
 
                 >
                     Update
+                </button>
+
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5 mx-2"
+                    style={{ background: currentColor }}
+
+                >
+                    <a href={`${process.env.REACT_APP_LOCALHOST}${financeDoc}`} >View Finances</a>
                 </button>
                 {showModal && (
                     <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
@@ -180,6 +250,50 @@ const FinancialManagement = () => {
                                     onClick={updateMonthly}
                                 >
                                     Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5"
+                    onClick={openDocModal}
+                    style={{ background: currentColor }}
+
+                >
+                    Upload Finances
+                </button>
+
+                {showDocModal && (
+                    <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                        <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+                        <div className="modal-content bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                            <div className="modal-header flex justify-between items-center p-2">
+                                <h2 className="text-2xl font-bold">Upload a File</h2>
+                                <button
+                                    className="bg-transparent text-black opacity-50 text-3xl font-bold leading-none hover:text-black p-2 rounded-md focus:outline-none"
+                                    onClick={closeDocModal}
+                                >
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+
+                            <div className="modal-body p-2">
+                                <input
+                                    className="border rounded w-full p-2"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                />
+                            </div>
+
+                            <div className="modal-footer flex justify-end pt-2">
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    onClick={handleUpload}
+                                >
+                                    Upload
                                 </button>
                             </div>
                         </div>

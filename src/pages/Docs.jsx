@@ -63,9 +63,9 @@ const Docs = () => {
     closeModal();
   }
 
-  const deleteDoc = async (id,postedBy) => {
+  const deleteDoc = async (id, postedBy) => {
     const user = JSON.parse(localStorage.getItem('user-data'))
-    if(user._id !== postedBy){
+    if (user._id !== postedBy) {
       alert.error("not allowed")
 
 
@@ -132,10 +132,13 @@ const Docs = () => {
 
       {
         docs && docs.map((d) => {
+          {
+            if (d.name === "finances" || d.name === "transferred" || d.name === "team") return <></>
+          }
           return (
             <div className="flex items-center justify-between border-b border-gray-200 py-4">
               <div className="flex items-center">
-                <AiFillDelete color='red' className='mr-2 cursor-pointer' onClick={() => { deleteDoc(d._id,d.postedBy) }} />
+                <AiFillDelete color='red' className='mr-2 cursor-pointer' onClick={() => { deleteDoc(d._id, d.postedBy) }} />
                 <span className="font-medium text-gray-800">{d.name}</span>
               </div>
               <div className="flex items-center">
